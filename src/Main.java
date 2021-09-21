@@ -16,7 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-//		createTextFile();
+		createTextFile();
 		verwijderAlsMeerDan1000();
 
 	}
@@ -25,20 +25,26 @@ public class Main {
 			"Justin Douglas", "Jayantie Mahangroo" };
 	private static File textFile = new File("");
 
-//	public void save() {
-//		textFile = new File("");
-//	}
-
-	public static long createTextFile() {
+	public static void createTextFile() {
 
 		textFile = new File("mijntest.txt");
 		File dir = new File(".");
 		String[] files = dir.list();
 
 		int tries = 0;
-		
-		if(!textFile.exists()) {
-			
+
+		if (!textFile.exists()) {
+			while (tries < namen.length) {
+				try {
+					FileWriter writer = new FileWriter(textFile, true);
+
+					writer.write(namen[tries++] + "\n");
+					writer.close();
+				} catch (IOException io) {
+					System.err.println("Something went wrong:" + io.getMessage());
+				}
+			}
+
 		} else {
 			while (tries < namen.length) {
 				try {
@@ -51,15 +57,15 @@ public class Main {
 				}
 			}
 		}
-
-		return textFile.length();
+		System.out.println("Textfile size: " + textFile.length() + " bytes");
 
 	}
 
 	public static void verwijderAlsMeerDan1000() {
 
-		if (createTextFile() > 1000) {
+		if (textFile.length() >= 1000) {
 			textFile.delete();
+			System.out.println("Verwijderd");
 		} else if (!textFile.exists()) {
 			System.err.println("Kan niets verwijderen omdat file niet bestaat.");
 		} else {
